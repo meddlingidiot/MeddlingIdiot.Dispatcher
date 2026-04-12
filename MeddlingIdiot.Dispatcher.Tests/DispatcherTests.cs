@@ -1,13 +1,6 @@
-﻿using MeddlingIdiot.Dispatcher.Tests.Fakes;
-using FluentAssertions;
+﻿using FluentAssertions;
+using MeddlingIdiot.Dispatcher.Tests.Fakes;
 using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeddlingIdiot.Dispatcher.Tests;
 

@@ -1,6 +1,3 @@
-using Nuke.Common;
-using Nuke.Common.ProjectModel;
-using Automation.Nuke.Components;
 using Automation.Nuke.Components.Components;
 using Automation.Nuke.Components.DefaultBuilds;
 using Automation.Nuke.Components.Parameters;
