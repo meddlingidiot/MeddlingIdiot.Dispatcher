@@ -1,121 +1,104 @@
-# Automation.Dispatcher
+# MeddlingIdiot.Dispatcher
 
-## Latest Release
-
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-
-A lightweight **mediator-style dispatching library** for .NET 8 applications.  
-It provides a simple way to send commands and queries to their respective handlers with support for pipeline behaviors (cross-cutting concerns such as logging, validation, etc.).
+A lightweight mediator-style dispatching library for .NET. Provides a simple way to send commands and queries to their respective handlers, with support for pipeline behaviors (logging, validation, etc.).
 
 ---
 
-## ✨ Features
+## Features
 
-## Latest Release
-
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-- **Request/Response pattern** with `IRequest<TResponse>` and `IRequest` (for commands without return values).
-- **Request handlers** via `IRequestHandler<TRequest, TResponse>` or `IRequestHandler<TRequest>`.
-- **Pipeline behaviors** (`IPipelineBehavior`) for cross-cutting logic such as logging or validation.
-- **Dependency injection support** through `IServiceCollection` extensions.
+- **Request/Response pattern** via `IRequest<TResponse>` and `IRequest` (void commands)
+- **Request handlers** via `IRequestHandler<TRequest, TResponse>` or `IRequestHandler<TRequest>`
+- **Pipeline behaviors** (`IPipelineBehavior`) for cross-cutting concerns
+- **Dependency injection** via `IServiceCollection` extensions with assembly scanning
+- **Multi-framework support**: .NET 8, 9, 10, .NET Standard 2.0, .NET Framework 4.7.2+
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-## Latest Release
+### 1. Configure Services
 
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-
-### 1️⃣ Configure Services
-
-## Latest Release
-
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-Register the dispatcher and scan assemblies for request handlers:
+Register the dispatcher and scan assemblies for handlers:
 
 ```csharp
 services.AddDispatcher(typeof(Program).Assembly);
 ```
 
-Optional: Add open generic pipeline behaviors:
+Optionally register open generic pipeline behaviors:
+
 ```csharp
-services.AddOpenBehavior(typeof(MyLoggingBehavior<>));
-services.AddOpenBehavior(typeof(MyLoggingBehavior<,>));
+services.AddOpenBehavior(typeof(LoggingBehavior<>));
+services.AddOpenBehavior(typeof(LoggingBehavior<,>));
 ```
 
-### 2️⃣ Define Requests and Handlers
+### 2. Define Requests and Handlers
 
-## Latest Release
+**Command (no return value):**
 
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-Create a command or query:
 ```csharp
-public record AddStoreValueCommand(string Key, string Value) : IRequest;
-```
+public record AddItemCommand(string Key, string Value) : IRequest;
 
-Create a handler:
-```csharp
-public class AddStoreValueCommandHandler : IRequestHandler<AddStoreValueCommand>
+public class AddItemCommandHandler : IRequestHandler<AddItemCommand>
 {
-    public Task Handle(AddStoreValueCommand request, CancellationToken cancellationToken = default)
+    public Task Handle(AddItemCommand request, CancellationToken cancellationToken = default)
     {
-        // Handle logic here
+        // handle logic
         return Task.FromResult(Unit.Value);
     }
 }
 ```
 
-### 3️⃣ Send Requests
+**Query (with return value):**
 
-## Latest Release
-
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-Inject `IDispatcher` or `ISender` and call:
 ```csharp
-await dispatcher.Send(new AddStoreValueCommand("key", "value"));
+public record GetItemQuery(string Key) : IRequest<string?>;
+
+public class GetItemQueryHandler : IRequestHandler<GetItemQuery, string?>
+{
+    public Task<string?> Handle(GetItemQuery request, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(store.Get(request.Key));
+    }
+}
 ```
 
-For queries:
+### 3. Send Requests
+
+Inject `IDispatcher` or `ISender`:
+
 ```csharp
-string? result = await dispatcher.Send(new GetStoreValueQuery("key"));
+await dispatcher.Send(new AddItemCommand("key", "value"));
+
+string? result = await dispatcher.Send(new GetItemQuery("key"));
 ```
 
 ---
 
-## 🛠 Pipeline Behaviors
+## Pipeline Behaviors
 
-## Latest Release
+Behaviors wrap handler execution and run in registration order. Each behavior receives a `next` delegate to pass control down the chain.
 
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-Pipeline behaviors allow you to run cross-cutting logic:
+**Void command behavior:**
 
 ```csharp
 public class LoggingBehavior<TRequest> : IPipelineBehavior<TRequest>
     where TRequest : IRequest
 {
-    public async Task<Unit> Handle(TRequest request, RequestHandlerDelegate<Unit> next, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(TRequest request, RequestHandlerDelegate<Unit> next, CancellationToken cancellationToken = default)
+    {
+        Console.WriteLine($"Handling {typeof(TRequest).Name}");
+        return await next(cancellationToken);
+    }
+}
+```
+
+**Query behavior:**
+
+```csharp
+public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
+{
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken = default)
     {
         Console.WriteLine($"Handling {typeof(TRequest).Name}");
         return await next(cancellationToken);
@@ -124,41 +107,20 @@ public class LoggingBehavior<TRequest> : IPipelineBehavior<TRequest>
 ```
 
 Register with:
+
 ```csharp
 services.AddOpenBehavior(typeof(LoggingBehavior<>));
+services.AddOpenBehavior(typeof(LoggingBehavior<,>));
 ```
 
 ---
 
-## 🧪 Build & Test
+## Build & Test
 
-## Latest Release
-
-**Version:** 2.0.1
-**Released:** 2025-11-24
-**Coverage:** % line / % branch
-**Build:** [2.0.1](https://dev.azure.com/AFTR/Automation/_build/results?buildId=699)
-Build:
 ```bash
 dotnet build
-```
-
-Run tests:
-```bash
 dotnet test
 ```
 
-Tests show how to use requests, handlers, and pipeline behaviors.
-
 ---
 
-## Changelog
-
-### [2.0.1] - 2025-11-24
-
-**Package:** Automation.Dispatcher
-**Coverage:** % line / % branch
-
-#### Other Changes
-- refactor(project): update nuspec handling and dependencies
-- Add .nuspec file and update project for NuGet packaging
