@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Automation.Dispatcher;
+namespace MeddlingIdiot.Dispatcher;
 
 public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automation.Dispatcher;
+namespace MeddlingIdiot.Dispatcher;
 
 public interface IDispatcher : ISender { }
 

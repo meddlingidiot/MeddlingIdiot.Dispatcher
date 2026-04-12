@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automation.Dispatcher.Tests.Fakes;
+namespace MeddlingIdiot.Dispatcher.Tests.Fakes;
 public class MockDataStore
 {
     private readonly Dictionary<string, string> _store = new();

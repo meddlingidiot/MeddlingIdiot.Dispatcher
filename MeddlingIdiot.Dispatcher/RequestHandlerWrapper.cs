@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Automation.Dispatcher;
+namespace MeddlingIdiot.Dispatcher;
 
 public abstract class RequestHandlerBase
 {

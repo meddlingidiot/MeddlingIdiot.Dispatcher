@@ -1,4 +1,4 @@
-﻿namespace Automation.Dispatcher.Tests.Fakes;
+﻿namespace MeddlingIdiot.Dispatcher.Tests.Fakes;
 
 public record GetStoreValueQuery(string Key) : IRequest<string?>;
 

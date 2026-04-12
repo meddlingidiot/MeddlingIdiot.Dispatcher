@@ -1,4 +1,4 @@
-﻿namespace Automation.Dispatcher;
+﻿namespace MeddlingIdiot.Dispatcher;
 
 public interface IRequestHandler<in TRequest, TResponse>
     where TRequest : IRequest<TResponse>

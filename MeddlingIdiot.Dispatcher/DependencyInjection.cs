@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automation.Dispatcher;
+namespace MeddlingIdiot.Dispatcher;
 public static class DependencyInjection
 {
     public static IServiceCollection AddDispatcher(

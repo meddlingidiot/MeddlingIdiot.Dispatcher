@@ -1,4 +1,4 @@
-﻿namespace Automation.Dispatcher;
+﻿namespace MeddlingIdiot.Dispatcher;
 
 public delegate Task<TResponse> RequestHandlerDelegate<TResponse>(CancellationToken t = default);
 

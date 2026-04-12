@@ -1,4 +1,4 @@
-﻿using Automation.Dispatcher.Tests.Fakes;
+﻿using MeddlingIdiot.Dispatcher.Tests.Fakes;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automation.Dispatcher.Tests;
+namespace MeddlingIdiot.Dispatcher.Tests;
 
 public class DispatcherTests : IDisposable
 {
