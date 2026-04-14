@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
-using MeddlingIdiot.Dispatcher.Tests.Fakes;
+using MeddlingIdiot.Dispatcher.UnitTests.Fakes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MeddlingIdiot.Dispatcher.Tests;
+namespace MeddlingIdiot.Dispatcher.UnitTests;
 
-public class DispatcherTests : IDisposable
+public class DispatcherTests
 {
     private readonly MockDataStore _mockDataStore = new();
     private readonly IServiceCollection _services;
@@ -16,12 +16,13 @@ public class DispatcherTests : IDisposable
         _services.AddDispatcher(typeof(DispatcherTests).Assembly);
     }
 
-    public void Dispose()
+    [After(Test)]
+    public void Cleanup()
     {
         _mockDataStore.Clear();
     }
 
-    [Fact]
+    [Test]
     public async Task Send_RequestWithResponse_ReturnsExpectedResponse()
     {
         // Arrange
@@ -34,7 +35,7 @@ public class DispatcherTests : IDisposable
         _mockDataStore.Get("key1").Should().Be("value1");
     }
 
-    [Fact]
+    [Test]
     public async Task Send_RequestWithoutResponse_CompletesSuccessfully()
     {
         // Arrange
@@ -47,7 +48,7 @@ public class DispatcherTests : IDisposable
         response.Should().BeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task Send_RequestWithResponseAndBehavior_AppliesBehavior()
     {
         // Arrange
@@ -62,7 +63,7 @@ public class DispatcherTests : IDisposable
         _mockDataStore.Get("key2").Should().Be("value2");
     }
 
-    [Fact]
+    [Test]
     public async Task Send_RequestWithoutResponseAndBehavior_AppliesBehavior()
     {
         // Arrange

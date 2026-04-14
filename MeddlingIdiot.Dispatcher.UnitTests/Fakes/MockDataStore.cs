@@ -1,4 +1,4 @@
-﻿namespace MeddlingIdiot.Dispatcher.Tests.Fakes;
+﻿namespace MeddlingIdiot.Dispatcher.UnitTests.Fakes;
 public class MockDataStore
 {
     private readonly Dictionary<string, string> _store = new();

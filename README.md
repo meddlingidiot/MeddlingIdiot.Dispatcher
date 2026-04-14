@@ -1,5 +1,9 @@
 # MeddlingIdiot.Dispatcher
 
+[![Build](https://github.com/meddlingidiot/MeddlingIdiot.Dispatcher/actions/workflows/build.yml/badge.svg)](https://github.com/meddlingidiot/Automation.Nuke.Components/actions/workflows/build.yml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/meddlingidiot/MeddlingIdiot.Dispatcher)](https://github.com/meddlingidiot/MeddlingIdiot.Dispatcher/releases)
+[![License](https://img.shields.io/github/license/meddlingidiot/MeddlingIdiot.Dispatcher)](LICENSE)
+
 A lightweight mediator-style dispatching library for .NET. Provides a simple way to send commands and queries to their respective handlers, with support for pipeline behaviors (logging, validation, etc.).
 
 ---

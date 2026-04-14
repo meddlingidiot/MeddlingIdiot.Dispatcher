@@ -1,4 +1,4 @@
-﻿namespace MeddlingIdiot.Dispatcher.Tests.Fakes;
+﻿namespace MeddlingIdiot.Dispatcher.UnitTests.Fakes;
 public class MockLoggingBehavior<TRequest>(MockDataStore dataStore) : IPipelineBehavior<TRequest> where TRequest : IRequest
 {
     public readonly List<string> Logs = new();

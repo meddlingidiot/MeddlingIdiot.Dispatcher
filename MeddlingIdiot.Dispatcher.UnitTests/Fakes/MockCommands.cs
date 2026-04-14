@@ -1,4 +1,4 @@
-﻿namespace MeddlingIdiot.Dispatcher.Tests.Fakes;
+﻿namespace MeddlingIdiot.Dispatcher.UnitTests.Fakes;
 
 public record AddStoreValueCommand(string Key, string Value) : IRequest;
 

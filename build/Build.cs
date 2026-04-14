@@ -19,4 +19,5 @@ public class Build : GitHubActionsBuild, IHasGitHubPackages, IShowVersion, IClea
 
     string IHasGitHubPackages.GitHubOwner => "meddlingidiot";
     int IHasTests.MinCoverageThreshold => 80;
+    bool ITestExecution.UseMicrosoftTestingPlatform => true;
 }
