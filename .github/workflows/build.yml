@@ -94,6 +94,7 @@ jobs:
         env:
           AZUREBLOBSASTOKEN: ${{ secrets.AZURE_BLOB_SAS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          CODECOV_TOKEN_MID: ${{ secrets.CODECOV_TOKEN_MID }}
 
       # ----------------------------------------------------------------
       # Publish: NuGet Packages

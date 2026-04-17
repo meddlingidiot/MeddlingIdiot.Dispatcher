@@ -1,6 +1,7 @@
 # MeddlingIdiot.Dispatcher
 
 [![Build](https://github.com/meddlingidiot/MeddlingIdiot.Dispatcher/actions/workflows/build.yml/badge.svg)](https://github.com/meddlingidiot/Automation.Nuke.Components/actions/workflows/build.yml)
+[![codecov](https://codecov.io/gh/meddlingidiot/MeddlingIdiot.Dispatcher/branch/main/graph/badge.svg)](https://codecov.io/gh/meddlingidiot/MeddlingIdiot.Dispatcher)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/meddlingidiot/MeddlingIdiot.Dispatcher)](https://github.com/meddlingidiot/MeddlingIdiot.Dispatcher/releases)
 [![License](https://img.shields.io/github/license/meddlingidiot/MeddlingIdiot.Dispatcher)](LICENSE)
 
