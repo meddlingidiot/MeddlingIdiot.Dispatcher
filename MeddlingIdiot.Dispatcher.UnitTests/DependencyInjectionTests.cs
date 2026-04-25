@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MeddlingIdiot.Dispatcher.UnitTests;
@@ -6,44 +5,42 @@ namespace MeddlingIdiot.Dispatcher.UnitTests;
 public class DependencyInjectionTests
 {
     [Test]
-    public void AddOpenBehavior_NonGenericType_ThrowsArgumentException()
+    public async Task AddOpenBehavior_NonGenericType_ThrowsArgumentException()
     {
         var services = new ServiceCollection();
-        var act = () => services.AddOpenBehavior(typeof(NonGenericBehaviorType));
-        act.Should().Throw<ArgumentException>();
+        await Assert.That(() => services.AddOpenBehavior(typeof(NonGenericBehaviorType))).Throws<ArgumentException>();
     }
 
     [Test]
-    public void AddOpenBehavior_ThreeGenericParameters_ThrowsArgumentException()
+    public async Task AddOpenBehavior_ThreeGenericParameters_ThrowsArgumentException()
     {
         var services = new ServiceCollection();
-        var act = () => services.AddOpenBehavior(typeof(ThreeParamBehaviorType<,,>));
-        act.Should().Throw<ArgumentException>();
+        await Assert.That(() => services.AddOpenBehavior(typeof(ThreeParamBehaviorType<,,>))).Throws<ArgumentException>();
     }
 
     [Test]
-    public void AddOpenBehavior_TwoParameterBehavior_RegistersAsIPipelineBehavior()
+    public async Task AddOpenBehavior_TwoParameterBehavior_RegistersAsIPipelineBehavior()
     {
         var services = new ServiceCollection();
         services.AddOpenBehavior(typeof(OpenTwoParamBehavior<,>));
-        services.Should().Contain(sd => sd.ServiceType == typeof(IPipelineBehavior<,>));
+        await Assert.That(services.Any(sd => sd.ServiceType == typeof(IPipelineBehavior<,>))).IsTrue();
     }
 
     [Test]
-    public void AddOpenBehavior_OneParameterBehavior_RegistersAsIPipelineBehavior()
+    public async Task AddOpenBehavior_OneParameterBehavior_RegistersAsIPipelineBehavior()
     {
         var services = new ServiceCollection();
         services.AddOpenBehavior(typeof(OpenOneParamBehavior<>));
-        services.Should().Contain(sd => sd.ServiceType == typeof(IPipelineBehavior<>));
+        await Assert.That(services.Any(sd => sd.ServiceType == typeof(IPipelineBehavior<>))).IsTrue();
     }
 
     [Test]
-    public void AddDispatcher_RegistersIDispatcher()
+    public async Task AddDispatcher_RegistersIDispatcher()
     {
         var services = new ServiceCollection();
         services.AddDispatcher();
         var provider = services.BuildServiceProvider();
-        provider.GetService<IDispatcher>().Should().NotBeNull();
+        await Assert.That(provider.GetService<IDispatcher>()).IsNotNull();
     }
 }
 

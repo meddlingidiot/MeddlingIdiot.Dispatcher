@@ -1,88 +1,86 @@
-using FluentAssertions;
-
 namespace MeddlingIdiot.Dispatcher.UnitTests;
 
 public class UnitTests
 {
     [Test]
-    public void Value_ReturnsUnit()
+    public async Task Value_ReturnsUnit()
     {
         var unit = Unit.Value;
-        unit.Should().Be(Unit.Value);
+        await Assert.That(unit).IsEqualTo(Unit.Value);
     }
 
     [Test]
     public async Task Task_ReturnsCompletedTaskWithUnit()
     {
         var result = await Unit.Task;
-        result.Should().Be(Unit.Value);
+        await Assert.That(result).IsEqualTo(Unit.Value);
     }
 
     [Test]
-    public void CompareTo_AnotherUnit_ReturnsZero()
+    public async Task CompareTo_AnotherUnit_ReturnsZero()
     {
-        Unit.Value.CompareTo(Unit.Value).Should().Be(0);
+        await Assert.That(Unit.Value.CompareTo(Unit.Value)).IsEqualTo(0);
     }
 
     [Test]
-    public void CompareTo_AsIComparable_ReturnsZero()
-    {
-        IComparable unit = Unit.Value;
-        unit.CompareTo(Unit.Value).Should().Be(0);
-    }
-
-    [Test]
-    public void CompareTo_AsIComparable_WithNull_ReturnsZero()
+    public async Task CompareTo_AsIComparable_ReturnsZero()
     {
         IComparable unit = Unit.Value;
-        unit.CompareTo(null).Should().Be(0);
+        await Assert.That(unit.CompareTo(Unit.Value)).IsEqualTo(0);
     }
 
     [Test]
-    public void GetHashCode_ReturnsZero()
+    public async Task CompareTo_AsIComparable_WithNull_ReturnsZero()
     {
-        Unit.Value.GetHashCode().Should().Be(0);
+        IComparable unit = Unit.Value;
+        await Assert.That(unit.CompareTo(null)).IsEqualTo(0);
     }
 
     [Test]
-    public void Equals_AnotherUnit_ReturnsTrue()
+    public async Task GetHashCode_ReturnsZero()
     {
-        Unit.Value.Equals(Unit.Value).Should().BeTrue();
+        await Assert.That(Unit.Value.GetHashCode()).IsEqualTo(0);
     }
 
     [Test]
-    public void Equals_BoxedUnit_ReturnsTrue()
+    public async Task Equals_AnotherUnit_ReturnsTrue()
     {
-        Unit.Value.Equals((object)Unit.Value).Should().BeTrue();
+        await Assert.That(Unit.Value.Equals(Unit.Value)).IsTrue();
     }
 
     [Test]
-    public void Equals_NonUnit_ReturnsFalse()
+    public async Task Equals_BoxedUnit_ReturnsTrue()
     {
-        Unit.Value.Equals("not a unit").Should().BeFalse();
+        await Assert.That(Unit.Value.Equals((object)Unit.Value)).IsTrue();
     }
 
     [Test]
-    public void Equals_Null_ReturnsFalse()
+    public async Task Equals_NonUnit_ReturnsFalse()
     {
-        Unit.Value.Equals(null).Should().BeFalse();
+        await Assert.That(Unit.Value.Equals("not a unit")).IsFalse();
     }
 
     [Test]
-    public void EqualityOperator_TwoUnits_ReturnsTrue()
+    public async Task Equals_Null_ReturnsFalse()
     {
-        (Unit.Value == Unit.Value).Should().BeTrue();
+        await Assert.That(Unit.Value.Equals(null)).IsFalse();
     }
 
     [Test]
-    public void InequalityOperator_TwoUnits_ReturnsFalse()
+    public async Task EqualityOperator_TwoUnits_ReturnsTrue()
     {
-        (Unit.Value != Unit.Value).Should().BeFalse();
+        await Assert.That(Unit.Value == Unit.Value).IsTrue();
     }
 
     [Test]
-    public void ToString_ReturnsParentheses()
+    public async Task InequalityOperator_TwoUnits_ReturnsFalse()
     {
-        Unit.Value.ToString().Should().Be("()");
+        await Assert.That(Unit.Value != Unit.Value).IsFalse();
+    }
+
+    [Test]
+    public async Task ToString_ReturnsParentheses()
+    {
+        await Assert.That(Unit.Value.ToString()).IsEqualTo("()");
     }
 }

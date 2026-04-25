@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using TUnit.Mocks;
 using TUnit.Mocks.Arguments;
@@ -52,7 +51,7 @@ public class DispatcherTests
 
         var response = await dispatcher.Send(request);
 
-        response.Should().Be("value1");
+        await Assert.That(response).IsEqualTo("value1");
         handlerMock.Handle(request, Arg.Any<CancellationToken>()).WasCalled(Times.Once);
     }
 
@@ -102,7 +101,7 @@ public class DispatcherTests
 
         var response = await dispatcher.Send(request);
 
-        response.Should().Be("value2");
+        await Assert.That(response).IsEqualTo("value2");
         behaviorMock
             .Handle(request, Arg.Any<RequestHandlerDelegate<string?>>(), Arg.Any<CancellationToken>())
             .WasCalled(Times.Once);

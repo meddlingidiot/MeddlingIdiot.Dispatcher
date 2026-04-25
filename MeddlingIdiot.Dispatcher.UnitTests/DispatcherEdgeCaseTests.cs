@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MeddlingIdiot.Dispatcher.UnitTests;
@@ -19,8 +18,7 @@ public class DispatcherEdgeCaseTests
         var dispatcher = provider.GetRequiredService<IDispatcher>();
 
         IRequest? nullRequest = null;
-        var act = () => dispatcher.Send(nullRequest!);
-        await act.Should().ThrowAsync<ArgumentNullException>();
+        await Assert.That(() => dispatcher.Send(nullRequest!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -29,9 +27,8 @@ public class DispatcherEdgeCaseTests
         var provider = _services.BuildServiceProvider();
         var dispatcher = provider.GetRequiredService<IDispatcher>();
 
-        IRequest<string>? nullRequest = null;
-        var act = () => dispatcher.Send(nullRequest!);
-        await act.Should().ThrowAsync<ArgumentNullException>();
+        IRequest<string?>? nullRequest = null;
+        await Assert.That(() => dispatcher.Send(nullRequest!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -47,7 +44,7 @@ public class DispatcherEdgeCaseTests
 
         await dispatcher.Send(new TokenCapturingQuery(), cts.Token);
 
-        handler.CapturedToken.Should().Be(cts.Token);
+        await Assert.That(handler.CapturedToken).IsEqualTo(cts.Token);
     }
 
     [Test]
@@ -63,7 +60,7 @@ public class DispatcherEdgeCaseTests
 
         await dispatcher.Send(new TokenCapturingCommand(), cts.Token);
 
-        handler.CapturedToken.Should().Be(cts.Token);
+        await Assert.That(handler.CapturedToken).IsEqualTo(cts.Token);
     }
 
     [Test]
@@ -84,7 +81,9 @@ public class DispatcherEdgeCaseTests
 
         await dispatcher.Send(request);
 
-        executionOrder.Should().Equal("Behavior1", "Behavior2", "Handler");
+        await Assert.That(executionOrder[0]).IsEqualTo("Behavior1");
+        await Assert.That(executionOrder[1]).IsEqualTo("Behavior2");
+        await Assert.That(executionOrder[2]).IsEqualTo("Handler");
     }
 
     [Test]
@@ -105,7 +104,9 @@ public class DispatcherEdgeCaseTests
 
         await dispatcher.Send(request);
 
-        executionOrder.Should().Equal("Behavior1", "Behavior2", "Handler");
+        await Assert.That(executionOrder[0]).IsEqualTo("Behavior1");
+        await Assert.That(executionOrder[1]).IsEqualTo("Behavior2");
+        await Assert.That(executionOrder[2]).IsEqualTo("Handler");
     }
 }
 
