@@ -1,5 +1,7 @@
 # MeddlingIdiot.Dispatcher
 
+[![.NET](https://img.shields.io/badge/.NET-net10.0%20%7C%20net9.0%20%7C%20net8.0%20%7C%20netstandard2.0%20%7C%20net472%20%7C%20net48-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)[![C%23](https://img.shields.io/badge/C%23-14.0-239120?logo=csharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
+[![C%23](https://img.shields.io/badge/C%23-14.0-239120?logo=csharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
 [![Build](https://github.com/meddlingidiot/MeddlingIdiot.Dispatcher/actions/workflows/build.yml/badge.svg)](https://github.com/meddlingidiot/Automation.Nuke.Components/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/meddlingidiot/MeddlingIdiot.Dispatcher/branch/main/graph/badge.svg)](https://codecov.io/gh/meddlingidiot/MeddlingIdiot.Dispatcher)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/meddlingidiot/MeddlingIdiot.Dispatcher)](https://github.com/meddlingidiot/MeddlingIdiot.Dispatcher/releases)
